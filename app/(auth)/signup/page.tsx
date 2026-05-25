@@ -16,23 +16,28 @@ export default function SignupPage() {
     const form = new FormData(e.currentTarget);
     const supabase = createClient();
 
-    const { error } = await supabase.auth.signUp({
-      email: form.get("email") as string,
-      password: form.get("password") as string,
-    });
+    try {
+      const { error } = await supabase.auth.signUp({
+        email: form.get("email") as string,
+        password: form.get("password") as string,
+      });
 
-    if (error) {
-      const msg = error.message.toLowerCase();
-      if (msg.includes("already") || msg.includes("registered")) {
-        setError("Questa email è già registrata. Prova ad accedere.");
-      } else {
-        setError(`Errore: ${error.message}`);
+      if (error) {
+        const msg = error.message.toLowerCase();
+        if (msg.includes("already") || msg.includes("registered")) {
+          setError("Questa email è già registrata. Prova ad accedere.");
+        } else {
+          setError(`Errore: ${error.message}`);
+        }
+        setPending(false);
+        return;
       }
-      setPending(false);
-      return;
-    }
 
-    window.location.href = "/dashboard";
+      window.location.href = "/dashboard";
+    } catch {
+      setError("Errore di connessione. Controlla la rete e riprova.");
+      setPending(false);
+    }
   }
 
   return (
