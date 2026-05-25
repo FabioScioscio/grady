@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { SCHOOL_TYPES } from "@/lib/schoolData";
-import { completeOnboarding } from "@/app/dashboard/onboarding/actions";
+import { completeOnboarding } from "@/app/onboarding/actions";
 
 export default function OnboardingFlow() {
   const [step, setStep] = useState(1);
@@ -32,7 +32,13 @@ export default function OnboardingFlow() {
     fd.set("full_name", fullName);
     fd.set("school_type", schoolType);
     selectedSubjects.forEach((s) => fd.append("subjects", s));
-    await completeOnboarding(fd);
+    const result = await completeOnboarding(fd);
+    if (result.ok) {
+      window.location.href = "/dashboard";
+    } else {
+      setPending(false);
+      alert(result.error ?? "Errore durante il salvataggio. Riprova.");
+    }
   }
 
   return (

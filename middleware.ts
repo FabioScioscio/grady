@@ -36,19 +36,17 @@ export async function middleware(request: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  // Utente non loggato che prova ad accedere alla dashboard → rimandalo al login
-  if (!session && request.nextUrl.pathname.startsWith("/dashboard")) {
+  const path = request.nextUrl.pathname;
+
+  // Utente non loggato che prova ad accedere ad aree protette → login
+  if (!session && (path.startsWith("/dashboard") || path.startsWith("/onboarding"))) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
 
-  // Utente già loggato che va su login/signup → mandalo alla dashboard
-  if (
-    session &&
-    (request.nextUrl.pathname === "/login" ||
-      request.nextUrl.pathname === "/signup")
-  ) {
+  // Utente già loggato che va su login/signup → dashboard
+  if (session && (path === "/login" || path === "/signup")) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard";
     return NextResponse.redirect(url);

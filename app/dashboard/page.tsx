@@ -21,7 +21,7 @@ export default async function DashboardPage() {
 
   // Reindirizza all'onboarding se non completato
   if (!profile?.onboarding_done && !profile?.full_name) {
-    redirect("/dashboard/onboarding");
+    redirect("/onboarding");
   }
 
   const gradeList = (grades ?? []) as Grade[];

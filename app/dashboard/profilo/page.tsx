@@ -96,7 +96,7 @@ export default async function ProfiloPage() {
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mb-4">
         <p className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">Account</p>
         <a
-          href="/dashboard/onboarding"
+          href="/onboarding"
           className="flex items-center justify-between py-2 text-sm font-semibold text-grady-night hover:text-grady-blue transition"
         >
           <span>Cambia scuola o materie</span>

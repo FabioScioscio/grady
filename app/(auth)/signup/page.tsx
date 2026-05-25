@@ -33,7 +33,7 @@ export default function SignupPage() {
         return;
       }
 
-      window.location.href = "/dashboard";
+      window.location.href = "/onboarding";
     } catch {
       setError("Errore di connessione. Controlla la rete e riprova.");
       setPending(false);
