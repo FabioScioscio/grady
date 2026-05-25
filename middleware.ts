@@ -31,12 +31,13 @@ export async function middleware(request: NextRequest) {
     }
   );
 
+  // getSession() legge il cookie senza chiamate HTTP a Supabase → molto più veloce
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    data: { session },
+  } = await supabase.auth.getSession();
 
   // Utente non loggato che prova ad accedere alla dashboard → rimandalo al login
-  if (!user && request.nextUrl.pathname.startsWith("/dashboard")) {
+  if (!session && request.nextUrl.pathname.startsWith("/dashboard")) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
@@ -44,7 +45,7 @@ export async function middleware(request: NextRequest) {
 
   // Utente già loggato che va su login/signup → mandalo alla dashboard
   if (
-    user &&
+    session &&
     (request.nextUrl.pathname === "/login" ||
       request.nextUrl.pathname === "/signup")
   ) {
