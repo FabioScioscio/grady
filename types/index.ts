@@ -14,6 +14,7 @@ export type Subject = {
   user_id: string;
   name: string;
   color: string;
+  emoji?: string | null;
   created_at: string;
 };
 

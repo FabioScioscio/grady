@@ -10,11 +10,19 @@ type Props = {
   grades: Grade[];
 };
 
-// Calcola la media arrotondata a 1 decimale
 function calcAverage(grades: Grade[]): number | null {
   if (grades.length === 0) return null;
   const sum = grades.reduce((acc, g) => acc + g.value, 0);
   return Math.round((sum / grades.length) * 10) / 10;
+}
+
+// Calcola colore del testo in base al colore di sfondo (scuro o chiaro)
+function getTextColor(hex: string): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+  return lum > 128 ? "#1C1A2E" : "#ffffff";
 }
 
 const today = new Date().toISOString().split("T")[0];
@@ -22,29 +30,38 @@ const today = new Date().toISOString().split("T")[0];
 export default function SubjectCard({ subject, grades }: Props) {
   const [showForm, setShowForm] = useState(false);
   const avg = calcAverage(grades);
+  const textColor = getTextColor(subject.color);
 
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
       {/* Header materia */}
       <div
-        className="flex items-center justify-between px-5 py-4"
-        style={{ borderLeft: `4px solid ${subject.color}` }}
+        className="px-5 py-4 flex items-center justify-between"
+        style={{ backgroundColor: subject.color + "15", borderLeft: `4px solid ${subject.color}` }}
       >
-        <div>
-          <h3 className="font-bold text-grady-night text-base">{subject.name}</h3>
-          {avg !== null ? (
-            <p className="text-xs text-gray-400 mt-0.5">
-              Media: <span className="font-bold text-grady-night">{avg}</span>
-            </p>
-          ) : (
-            <p className="text-xs text-gray-400 mt-0.5">Nessun voto ancora</p>
+        <div className="flex items-center gap-3">
+          {/* Emoji se presente */}
+          {(subject as Subject & { emoji?: string }).emoji && (
+            <span className="text-2xl">{(subject as Subject & { emoji?: string }).emoji}</span>
           )}
+          <div>
+            <h3 className="font-bold text-grady-night text-base">{subject.name}</h3>
+            {avg !== null ? (
+              <p className="text-xs text-gray-400 mt-0.5">
+                Media: <span className="font-bold" style={{ color: subject.color }}>{avg}</span>
+              </p>
+            ) : (
+              <p className="text-xs text-gray-400 mt-0.5">Nessun voto ancora</p>
+            )}
+          </div>
         </div>
+
         <div className="flex items-center gap-2">
           {avg !== null && <GradePill value={avg} />}
           <button
             onClick={() => setShowForm(!showForm)}
-            className="w-8 h-8 rounded-full bg-grady-blue/10 text-grady-blue flex items-center justify-center hover:bg-grady-blue/20 transition font-bold text-lg"
+            className="w-8 h-8 rounded-full flex items-center justify-center hover:opacity-80 transition font-bold text-lg text-white"
+            style={{ backgroundColor: subject.color }}
             title="Aggiungi voto"
           >
             +
@@ -66,6 +83,16 @@ export default function SubjectCard({ subject, grades }: Props) {
         </div>
       </div>
 
+      {/* Barra media visiva */}
+      {avg !== null && (
+        <div className="h-1 bg-gray-100">
+          <div
+            className="h-full transition-all duration-700 rounded-full"
+            style={{ width: `${(avg / 10) * 100}%`, backgroundColor: subject.color }}
+          />
+        </div>
+      )}
+
       {/* Form aggiungi voto */}
       {showForm && (
         <form
@@ -73,7 +100,7 @@ export default function SubjectCard({ subject, grades }: Props) {
             await addGrade(fd);
             setShowForm(false);
           }}
-          className="px-5 py-4 bg-gray-50 border-t border-gray-100 flex flex-col gap-3"
+          className="px-5 py-4 bg-gray-50/80 border-t border-gray-100 flex flex-col gap-3"
         >
           <input type="hidden" name="subject_id" value={subject.id} />
 
@@ -88,18 +115,16 @@ export default function SubjectCard({ subject, grades }: Props) {
                 step="0.25"
                 required
                 placeholder="es. 7.5"
-                className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-grady-blue/30 focus:border-grady-blue"
+                className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:border-grady-blue"
+                style={{ "--tw-ring-color": subject.color } as React.CSSProperties}
               />
             </div>
             <div className="flex-1">
               <label className="text-xs font-semibold text-gray-500 mb-1 block">Tipo</label>
-              <select
-                name="type"
-                className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-grady-blue/30 focus:border-grady-blue bg-white"
-              >
-                <option value="scritto">Scritto</option>
-                <option value="orale">Orale</option>
-                <option value="pratico">Pratico</option>
+              <select name="type" className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:border-grady-blue bg-white">
+                <option value="scritto">✏️ Scritto</option>
+                <option value="orale">🎤 Orale</option>
+                <option value="pratico">🔧 Pratico</option>
               </select>
             </div>
           </div>
@@ -107,37 +132,23 @@ export default function SubjectCard({ subject, grades }: Props) {
           <div className="flex gap-2">
             <div className="flex-1">
               <label className="text-xs font-semibold text-gray-500 mb-1 block">Data</label>
-              <input
-                name="date"
-                type="date"
-                defaultValue={today}
-                required
-                className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-grady-blue/30 focus:border-grady-blue"
-              />
+              <input name="date" type="date" defaultValue={today} required className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:border-grady-blue" />
             </div>
             <div className="flex-1">
               <label className="text-xs font-semibold text-gray-500 mb-1 block">Nota (opz.)</label>
-              <input
-                name="description"
-                type="text"
-                placeholder="es. Equazioni"
-                className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-grady-blue/30 focus:border-grady-blue"
-              />
+              <input name="description" type="text" placeholder="es. Equazioni" className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:border-grady-blue" />
             </div>
           </div>
 
           <div className="flex gap-2">
             <button
               type="submit"
-              className="flex-1 bg-grady-blue text-white font-bold py-2 rounded-xl text-sm hover:bg-grady-violet transition"
+              className="flex-1 text-white font-bold py-2 rounded-xl text-sm transition"
+              style={{ backgroundColor: subject.color }}
             >
               Salva voto
             </button>
-            <button
-              type="button"
-              onClick={() => setShowForm(false)}
-              className="px-4 py-2 border border-gray-200 rounded-xl text-sm text-gray-500 hover:bg-gray-50"
-            >
+            <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 border border-gray-200 rounded-xl text-sm text-gray-500 hover:bg-gray-50">
               Annulla
             </button>
           </div>
@@ -152,24 +163,18 @@ export default function SubjectCard({ subject, grades }: Props) {
               <div className="flex items-center gap-3">
                 <GradePill value={g.value} />
                 <div>
-                  <p className="text-xs font-semibold text-grady-night capitalize">{g.type}</p>
-                  {g.description && (
-                    <p className="text-xs text-gray-400">{g.description}</p>
-                  )}
+                  <p className="text-xs font-semibold text-grady-night capitalize">
+                    {g.type === "scritto" ? "✏️" : g.type === "orale" ? "🎤" : "🔧"} {g.type}
+                  </p>
+                  {g.description && <p className="text-xs text-gray-400">{g.description}</p>}
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <span className="text-xs text-gray-300">
-                  {new Date(g.date).toLocaleDateString("it-IT", { day: "2-digit", month: "short" })}
+                  {new Date(g.date + "T12:00:00").toLocaleDateString("it-IT", { day: "2-digit", month: "short" })}
                 </span>
                 <form action={deleteGrade.bind(null, g.id)}>
-                  <button
-                    type="submit"
-                    className="text-gray-300 hover:text-grady-red transition text-xs"
-                    title="Elimina voto"
-                  >
-                    ✕
-                  </button>
+                  <button type="submit" className="text-gray-300 hover:text-grady-red transition text-xs" title="Elimina">✕</button>
                 </form>
               </div>
             </li>

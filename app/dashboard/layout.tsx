@@ -8,23 +8,26 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) redirect("/login");
 
+  // Carica profilo per controllare onboarding
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name, onboarding_done")
+    .eq("id", user.id)
+    .single();
+
+  // Se non ha completato l'onboarding, reindirizza (ma non in loop)
+  const isOnboarding = false; // gestito dalla pagina stessa
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Sidebar visibile solo da md in su */}
-      <Sidebar />
-
-      {/* Contenuto principale — su mobile occupa tutto, su desktop lascia spazio alla sidebar */}
-      <main className="md:ml-56 pb-20 md:pb-0 min-h-screen">
+      <Sidebar userName={profile?.full_name ?? null} />
+      <main className="md:ml-64 pb-24 md:pb-0 min-h-screen">
         {children}
       </main>
-
-      {/* Bottom nav visibile solo su mobile */}
       <BottomNav />
     </div>
   );
