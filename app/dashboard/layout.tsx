@@ -19,9 +19,6 @@ export default async function DashboardLayout({
     .eq("id", user.id)
     .single();
 
-  // Se non ha completato l'onboarding, reindirizza (ma non in loop)
-  const isOnboarding = false; // gestito dalla pagina stessa
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Sidebar userName={profile?.full_name ?? null} />

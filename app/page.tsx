@@ -196,7 +196,7 @@ export default function Home() {
           <p className="text-grady-blue text-xs font-bold uppercase tracking-widest mb-2">Compatibile con</p>
           <h2 className="text-3xl font-extrabold text-grady-night mb-4">Per ogni tipo di scuola</h2>
           <p className="text-gray-500 text-sm mb-10 max-w-sm mx-auto">
-            Seleziona la tua scuola e ricevi le materie pre-configurate dal Ministero dell'Istruzione.
+            Seleziona la tua scuola e ricevi le materie pre-configurate dal Ministero dell&apos;Istruzione.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             {[
