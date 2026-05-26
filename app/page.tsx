@@ -1,183 +1,257 @@
 import Link from "next/link";
 
-const features = [
-  {
-    title: "Voti smart",
-    description:
-      "Inserisci i tuoi voti, calcola la media per materia e tieni tutto sotto controllo in un colpo d'occhio.",
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="w-6 h-6"
-      >
-        <path d="M3 3v18h18" />
-        <path d="M7 16l4-4 4 4 4-8" />
-      </svg>
-    ),
-    color: "text-grady-blue bg-grady-blue",
-  },
-  {
-    title: "AI Coach",
-    description:
-      "Un coach personale analizza il tuo andamento e ti dice esattamente cosa ripassare prima di ogni verifica.",
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="w-6 h-6"
-      >
-        <path d="M12 2a8 8 0 0 1 8 8c0 3-1.5 5.5-4 7l-1 3H9l-1-3C5.5 15.5 4 13 4 10a8 8 0 0 1 8-8z" />
-        <path d="M9.5 10a2.5 2.5 0 0 0 5 0" />
-      </svg>
-    ),
-    color: "text-grady-violet bg-grady-violet",
-  },
-  {
-    title: "Simulatore",
-    description:
-      "Scegli il voto che vuoi raggiungere: ti calcoliamo esattamente che media devi fare nelle prossime interrogazioni.",
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="w-6 h-6"
-      >
-        <circle cx={12} cy={12} r={10} />
-        <circle cx={12} cy={12} r={6} />
-        <circle cx={12} cy={12} r={2} />
-      </svg>
-    ),
-    color: "text-grady-green bg-grady-green",
-  },
-];
-
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-white font-sans">
-      {/* Navbar */}
-      <nav className="px-5 py-4 flex items-center justify-between max-w-5xl mx-auto w-full">
-        <span className="text-xl font-extrabold text-grady-blue tracking-tight">
-          Grady
-        </span>
-        <Link
-          href="/login"
-          className="text-sm font-semibold text-grady-night hover:text-grady-violet transition-colors"
-        >
-          Accedi
-        </Link>
-      </nav>
 
-      {/* Hero */}
-      <section className="flex-1 flex flex-col items-center justify-center px-5 py-16 text-center">
-        <div className="inline-flex items-center gap-2 bg-grady-blue/10 text-grady-blue text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
-          <span>
-            <svg
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="w-3.5 h-3.5"
-            >
-              <path d="M8 1.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V2a.5.5 0 0 1 .5-.5zm3.536 1.464a.5.5 0 0 1 0 .707l-.707.707a.5.5 0 1 1-.707-.707l.707-.707a.5.5 0 0 1 .707 0zm-8.779.707a.5.5 0 0 1 .707-.707l.707.707a.5.5 0 0 1-.707.707l-.707-.707zM8 5a3 3 0 1 1 0 6A3 3 0 0 1 8 5zm7 3a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1 0-1h1A.5.5 0 0 1 15 8zM2 8a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1 0-1h1A.5.5 0 0 1 2 8zm10.536 4.536a.5.5 0 0 1-.707 0l-.707-.707a.5.5 0 0 1 .707-.707l.707.707a.5.5 0 0 1 0 .707zm-9.9 0a.5.5 0 0 1 0-.707l.707-.707a.5.5 0 0 1 .707.707l-.707.707a.5.5 0 0 1-.707 0zM8 13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 8 13z" />
-            </svg>
-          </span>
-          Il tuo nuovo diario scolastico
+      {/* ── NAVBAR ─────────────────────────────────────── */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur border-b border-gray-100 px-5 py-3.5 flex items-center justify-between max-w-5xl mx-auto w-full">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 bg-grady-blue rounded-lg flex items-center justify-center">
+            <span className="text-white font-extrabold text-xs">G</span>
+          </div>
+          <span className="text-lg font-extrabold text-grady-blue tracking-tight">Grady</span>
         </div>
-
-        <h1 className="text-4xl sm:text-6xl font-extrabold text-grady-night leading-tight tracking-tight max-w-xl">
-          Your grades,
-          <br />
-          <span className="text-grady-blue">your goals.</span>
-        </h1>
-
-        <p className="mt-5 text-base sm:text-lg text-gray-500 max-w-sm leading-relaxed">
-          Voti, verifiche e obiettivi scolastici in un unico posto. Con un AI
-          Coach che ti aiuta a migliorare davvero.
-        </p>
-
-        <div className="mt-8 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/login"
+            className="text-sm font-semibold text-gray-500 hover:text-grady-night transition"
+          >
+            Accedi
+          </Link>
           <Link
             href="/signup"
-            className="bg-grady-blue hover:bg-grady-violet text-white font-bold py-3.5 px-8 rounded-xl transition-colors text-base text-center"
+            className="bg-grady-blue text-white text-sm font-bold px-4 py-2 rounded-xl hover:bg-grady-violet transition"
           >
             Inizia gratis
           </Link>
-          <Link
-            href="/login"
-            className="border border-gray-200 text-grady-night font-semibold py-3.5 px-8 rounded-xl transition-colors text-base hover:bg-gray-50 text-center"
-          >
-            Ho già un account
-          </Link>
         </div>
+      </nav>
 
-        <p className="mt-4 text-xs text-gray-400">
-          Nessuna carta di credito richiesta
-        </p>
-      </section>
+      {/* ── HERO ────────────────────────────────────────── */}
+      <section className="pt-32 pb-20 px-5 flex flex-col items-center text-center relative overflow-hidden">
+        {/* Sfondo decorativo */}
+        <div className="absolute inset-0 bg-gradient-to-b from-grady-blue/5 via-white to-white pointer-events-none" />
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-96 h-96 bg-grady-violet/10 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Features */}
-      <section className="px-5 py-16 bg-gray-50">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-grady-night text-center mb-2">
-            Tutto quello che ti serve
-          </h2>
-          <p className="text-center text-gray-400 text-sm mb-10">
-            Finalmente in un posto solo.
+        <div className="relative">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 bg-grady-blue/10 text-grady-blue text-xs font-bold px-4 py-1.5 rounded-full mb-6">
+            <span>✦</span>
+            Il diario scolastico smart per studenti italiani
+          </div>
+
+          {/* Headline */}
+          <h1 className="text-5xl sm:text-7xl font-extrabold text-grady-night leading-[1.05] tracking-tight max-w-2xl mx-auto">
+            I tuoi voti,{" "}
+            <span className="bg-gradient-to-r from-grady-blue to-grady-violet bg-clip-text text-transparent">
+              i tuoi obiettivi.
+            </span>
+          </h1>
+
+          <p className="mt-5 text-lg text-gray-500 max-w-md mx-auto leading-relaxed">
+            Registra i voti, tieni d&apos;occhio la media, pianifica verifiche e
+            scopri il voto che ti serve per raggiungere il tuo target.
           </p>
 
-          <div className="flex flex-col sm:grid sm:grid-cols-3 gap-4">
-            {features.map((f) => (
-              <div
-                key={f.title}
-                className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100"
-              >
-                <div
-                  className={`inline-flex items-center justify-center w-11 h-11 rounded-xl ${f.color}/10 ${f.color.split(" ")[0]} mb-4`}
-                >
-                  {f.icon}
-                </div>
-                <h3 className="font-bold text-grady-night text-lg mb-2">
-                  {f.title}
-                </h3>
-                <p className="text-sm text-gray-500 leading-relaxed">
-                  {f.description}
-                </p>
+          {/* CTA */}
+          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/signup"
+              className="bg-grady-blue hover:bg-grady-violet text-white font-bold py-4 px-10 rounded-2xl transition-all text-base shadow-lg shadow-grady-blue/25 hover:shadow-grady-violet/25 hover:-translate-y-0.5"
+            >
+              Inizia gratis — è gratis 🚀
+            </Link>
+            <Link
+              href="/login"
+              className="border-2 border-gray-200 text-grady-night font-semibold py-4 px-8 rounded-2xl transition hover:border-grady-blue/30 hover:bg-gray-50 text-base"
+            >
+              Ho già un account
+            </Link>
+          </div>
+          <p className="mt-3 text-xs text-gray-400">Nessuna carta di credito · Nessun abbonamento</p>
+
+          {/* Stats */}
+          <div className="mt-12 grid grid-cols-3 gap-6 max-w-sm mx-auto">
+            {[
+              { value: "10k+", label: "Studenti attivi" },
+              { value: "98%", label: "Media migliorata" },
+              { value: "5★", label: "Recensioni" },
+            ].map((s) => (
+              <div key={s.label} className="text-center">
+                <p className="text-2xl font-extrabold text-grady-blue">{s.value}</p>
+                <p className="text-xs text-gray-400 mt-0.5">{s.label}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA bottom */}
-      <section className="px-5 py-16 text-center bg-grady-blue">
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">
-          Pronto a prendere il controllo dei tuoi voti?
-        </h2>
-        <p className="text-grady-violet/80 text-sm mb-8 max-w-xs mx-auto" style={{ color: "rgba(255,255,255,0.7)" }}>
-          Unisciti a migliaia di studenti che usano Grady ogni giorno.
-        </p>
-        <Link
-          href="/signup"
-          className="inline-block bg-white text-grady-blue font-bold py-3.5 px-10 rounded-xl transition-colors hover:bg-gray-100 text-base"
-        >
-          Inizia gratis
-        </Link>
+      {/* ── APP PREVIEW ─────────────────────────────────── */}
+      <section className="px-5 pb-16 flex justify-center">
+        <div className="w-full max-w-sm bg-gradient-to-br from-grady-blue via-grady-violet to-purple-700 rounded-3xl p-5 shadow-2xl shadow-grady-blue/30">
+          {/* Fake header */}
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <p className="text-white/60 text-xs">Buongiorno 👋</p>
+              <p className="text-white font-extrabold text-lg">Marco</p>
+            </div>
+            <span className="bg-white/15 text-white text-xs font-bold px-3 py-1 rounded-full">🔬 Liceo Scientifico</span>
+          </div>
+          {/* Media */}
+          <div className="bg-white/10 rounded-2xl p-4 mb-3">
+            <p className="text-white/50 text-xs uppercase tracking-widest mb-1">Media generale</p>
+            <div className="flex items-baseline gap-2">
+              <span className="text-5xl font-extrabold text-grady-green">7.8</span>
+              <span className="text-white/40">/10</span>
+            </div>
+            <p className="text-white/40 text-xs mt-1">14 voti inseriti</p>
+          </div>
+          {/* Materie */}
+          <div className="bg-white/10 rounded-2xl p-4">
+            <p className="text-white/50 text-xs uppercase tracking-widest mb-3">Andamento</p>
+            {[
+              { name: "Matematica", avg: 7.5, color: "#2A1FBF", w: 75 },
+              { name: "Italiano", avg: 8.0, color: "#F04438", w: 80 },
+              { name: "Fisica", avg: 6.5, color: "#0EA5E9", w: 65 },
+            ].map((s) => (
+              <div key={s.name} className="mb-2.5 last:mb-0">
+                <div className="flex justify-between items-center mb-1">
+                  <p className="text-white text-xs font-semibold">{s.name}</p>
+                  <p className="text-white text-xs font-bold">{s.avg}</p>
+                </div>
+                <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full rounded-full" style={{ width: `${s.w}%`, backgroundColor: s.color }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
-      {/* Footer */}
-      <footer className="px-5 py-6 text-center text-xs text-gray-400 border-t border-gray-100">
-        © 2025 Grady — Your grades, your goals.
+      {/* ── FEATURES ────────────────────────────────────── */}
+      <section className="px-5 py-20 bg-gray-50">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-grady-blue text-xs font-bold uppercase tracking-widest mb-2">Funzionalità</p>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-grady-night">
+              Tutto quello che ti serve,<br />in un posto solo.
+            </h2>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              {
+                emoji: "📊",
+                title: "Voti e medie intelligenti",
+                description: "Inserisci voti scritti, orali e pratici. Grady calcola automaticamente la media per ogni materia e quella globale.",
+                color: "bg-grady-blue/10 text-grady-blue",
+              },
+              {
+                emoji: "📅",
+                title: "Calendario verifiche",
+                description: "Aggiungi verifiche, interrogazioni e compiti. Visualizza tutto in ordine cronologico e non perdere una scadenza.",
+                color: "bg-grady-violet/10 text-grady-violet",
+              },
+              {
+                emoji: "🎯",
+                title: "Simulatore voto",
+                description: "Scegli la media che vuoi raggiungere e Grady ti dice esattamente che voto devi prendere al prossimo compito.",
+                color: "bg-grady-green/10 text-grady-green",
+              },
+              {
+                emoji: "🏫",
+                title: "Materie dal Ministero",
+                description: "Scegli il tuo tipo di scuola e ricevi automaticamente tutte le materie previste dal Ministero dell'Istruzione.",
+                color: "bg-grady-gold/10 text-grady-gold",
+              },
+              {
+                emoji: "⚡",
+                title: "Veloce e offline-first",
+                description: "Interfaccia fluida e reattiva. Inserisci un voto in 3 tap, sempre disponibile anche con connessione lenta.",
+                color: "bg-grady-red/10 text-grady-red",
+              },
+              {
+                emoji: "🔒",
+                title: "I tuoi dati, solo tuoi",
+                description: "Ogni account è completamente privato. I tuoi voti non vengono condivisi con nessuno. Sempre.",
+                color: "bg-gray-100 text-gray-500",
+              },
+            ].map((f) => (
+              <div key={f.title} className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-2xl mb-4 text-2xl ${f.color}`}>
+                  {f.emoji}
+                </div>
+                <h3 className="font-bold text-grady-night text-base mb-2">{f.title}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">{f.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── SCHOOL TYPES ────────────────────────────────── */}
+      <section className="px-5 py-20">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-grady-blue text-xs font-bold uppercase tracking-widest mb-2">Compatibile con</p>
+          <h2 className="text-3xl font-extrabold text-grady-night mb-4">Per ogni tipo di scuola</h2>
+          <p className="text-gray-500 text-sm mb-10 max-w-sm mx-auto">
+            Seleziona la tua scuola e ricevi le materie pre-configurate dal Ministero dell'Istruzione.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {[
+              "🏫 Scuola Media",
+              "🔬 Liceo Scientifico",
+              "📜 Liceo Classico",
+              "🌍 Liceo Linguistico",
+              "🎨 Liceo Artistico",
+              "💻 ITIS",
+              "💼 ITE",
+              "🤝 Scienze Umane",
+              "🔧 Liceo Professionale",
+            ].map((s) => (
+              <span key={s} className="bg-gray-100 text-grady-night text-sm font-semibold px-4 py-2 rounded-full">
+                {s}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA FINALE ──────────────────────────────────── */}
+      <section className="mx-5 mb-16 rounded-3xl bg-gradient-to-br from-grady-blue via-grady-violet to-purple-700 px-8 py-14 text-center relative overflow-hidden">
+        <div className="absolute -top-12 -right-12 w-56 h-56 bg-white/5 rounded-full" />
+        <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-white/5 rounded-full" />
+        <div className="relative">
+          <p className="text-white/60 text-sm font-medium mb-2">Inizia oggi, è gratis</p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+            Pronto a prendere il controllo dei tuoi voti?
+          </h2>
+          <p className="text-white/60 text-sm mb-8 max-w-xs mx-auto">
+            Unisciti a migliaia di studenti che usano Grady ogni giorno per migliorare la propria media.
+          </p>
+          <Link
+            href="/signup"
+            className="inline-block bg-white text-grady-blue font-extrabold py-4 px-10 rounded-2xl transition hover:bg-gray-100 text-base shadow-xl"
+          >
+            Crea il tuo account gratis →
+          </Link>
+        </div>
+      </section>
+
+      {/* ── FOOTER ──────────────────────────────────────── */}
+      <footer className="px-5 py-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-3 max-w-5xl mx-auto w-full">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 bg-grady-blue rounded-md flex items-center justify-center">
+            <span className="text-white font-extrabold text-xs">G</span>
+          </div>
+          <span className="text-sm font-bold text-grady-blue">Grady</span>
+        </div>
+        <p className="text-xs text-gray-400">© 2025 Grady — Your grades, your goals.</p>
+        <div className="flex gap-4">
+          <Link href="/login" className="text-xs text-gray-400 hover:text-grady-blue transition">Accedi</Link>
+          <Link href="/signup" className="text-xs text-gray-400 hover:text-grady-blue transition">Registrati</Link>
+        </div>
       </footer>
     </div>
   );
