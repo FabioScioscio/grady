@@ -22,7 +22,7 @@ export default async function DashboardLayout({
   return (
     <div className="min-h-screen bg-gray-50">
       <Sidebar userName={profile?.full_name ?? null} />
-      <main className="md:ml-64 pb-24 md:pb-0 min-h-screen">
+      <main className="md:ml-64 pb-24 md:pb-0">
         {children}
       </main>
       <BottomNav />

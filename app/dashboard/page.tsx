@@ -56,15 +56,15 @@ export default async function DashboardPage() {
   const hasGrades = gradeList.length > 0;
 
   return (
-    <div className="max-w-2xl mx-auto bg-gray-50">
+    <div className="max-w-2xl mx-auto">
 
       {/* ══ HERO ══════════════════════════════════════════════ */}
       <div className="bg-gradient-to-br from-grady-blue via-grady-violet to-purple-700 relative overflow-hidden">
         <div className="absolute -top-12 -right-12 w-56 h-56 bg-white/5 rounded-full pointer-events-none" />
         <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-white/5 rounded-full pointer-events-none" />
 
-        <div className="relative px-5 pt-8 pb-5">
-          {/* Riga greeting + avatar */}
+        <div className="relative px-5 pt-8 pb-4">
+          {/* Greeting + avatar */}
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-white/55 text-xs font-medium">{greeting} 👋</p>
@@ -82,9 +82,9 @@ export default async function DashboardPage() {
             </Link>
           </div>
 
-          {/* Sezione media / empty */}
+          {/* Media o empty state */}
           {hasGrades ? (
-            <div className="flex items-end justify-between">
+            <div className="flex items-end justify-between mb-4">
               <div>
                 <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mb-0.5">Media generale</p>
                 <div className="flex items-baseline gap-1">
@@ -108,7 +108,7 @@ export default async function DashboardPage() {
               </div>
             </div>
           ) : (
-            <div className="flex items-center gap-3 bg-white/10 rounded-2xl px-4 py-3">
+            <div className="flex items-center gap-3 bg-white/10 rounded-2xl px-4 py-3 mb-4">
               <span className="text-2xl shrink-0">✍️</span>
               <div className="flex-1 min-w-0">
                 <p className="text-white font-bold text-sm leading-tight">Aggiungi il tuo primo voto!</p>
@@ -124,19 +124,19 @@ export default async function DashboardPage() {
           )}
         </div>
 
-        {/* ── Azioni rapide — attaccate al hero ── */}
+        {/* Azioni rapide — dentro il hero */}
         <div className="grid grid-cols-2 gap-2.5 px-5 pb-5">
           <Link href="/dashboard/voti"
-            className="bg-white/15 hover:bg-white/20 text-white rounded-2xl px-4 py-3 flex items-center gap-2.5 transition active:scale-95">
-            <span className="text-xl">📝</span>
+            className="bg-white/15 hover:bg-white/22 text-white rounded-2xl px-4 py-3 flex items-center gap-2.5 transition active:scale-95">
+            <span className="text-xl shrink-0">📝</span>
             <div className="min-w-0">
               <p className="font-bold text-sm leading-tight">Aggiungi voto</p>
               <p className="text-white/50 text-xs">Registra risultato</p>
             </div>
           </Link>
           <Link href="/dashboard/calendario"
-            className="bg-white/15 hover:bg-white/20 text-white rounded-2xl px-4 py-3 flex items-center gap-2.5 transition active:scale-95">
-            <span className="text-xl">📅</span>
+            className="bg-white/15 hover:bg-white/22 text-white rounded-2xl px-4 py-3 flex items-center gap-2.5 transition active:scale-95">
+            <span className="text-xl shrink-0">📅</span>
             <div className="min-w-0">
               <p className="font-bold text-sm leading-tight">Calendario</p>
               <p className="text-white/50 text-xs">Verifiche e compiti</p>
@@ -207,7 +207,7 @@ export default async function DashboardPage() {
           </div>
         )}
 
-        {/* Andamento con barre */}
+        {/* Andamento con barre — solo se ci sono voti */}
         {subjectsWithGrades.length > 0 && (
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div className="px-4 py-2.5 border-b border-gray-50">
@@ -235,30 +235,26 @@ export default async function DashboardPage() {
         )}
 
         {/* Insight */}
-        {(worstSubject || (bestSubject && (bestSubject.avg ?? 0) >= 7)) && (
-          <div className="flex flex-col gap-2">
-            {worstSubject && (
-              <div className="bg-white border border-grady-red/20 rounded-2xl px-4 py-3 flex items-center gap-3">
-                <span className="text-lg shrink-0">⚠️</span>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[10px] font-bold text-grady-red uppercase tracking-wide">Da migliorare</p>
-                  <p className="text-sm font-semibold text-grady-night truncate">
-                    {worstSubject.emoji} {worstSubject.name} — media <span className="text-grady-red">{worstSubject.avg}</span>
-                  </p>
-                </div>
-              </div>
-            )}
-            {bestSubject && (bestSubject.avg ?? 0) >= 7 && (
-              <div className="bg-white border border-grady-green/20 rounded-2xl px-4 py-3 flex items-center gap-3">
-                <span className="text-lg shrink-0">⭐</span>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[10px] font-bold text-grady-green uppercase tracking-wide">Punto di forza</p>
-                  <p className="text-sm font-semibold text-grady-night truncate">
-                    {bestSubject.emoji} {bestSubject.name} — media <span className="text-grady-green">{bestSubject.avg}</span>
-                  </p>
-                </div>
-              </div>
-            )}
+        {worstSubject && (
+          <div className="bg-white border border-grady-red/20 rounded-2xl px-4 py-3 flex items-center gap-3">
+            <span className="text-lg shrink-0">⚠️</span>
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] font-bold text-grady-red uppercase tracking-wide">Da migliorare</p>
+              <p className="text-sm font-semibold text-grady-night truncate">
+                {worstSubject.emoji} {worstSubject.name} — media <span className="text-grady-red">{worstSubject.avg}</span>
+              </p>
+            </div>
+          </div>
+        )}
+        {bestSubject && (bestSubject.avg ?? 0) >= 7 && (
+          <div className="bg-white border border-grady-green/20 rounded-2xl px-4 py-3 flex items-center gap-3">
+            <span className="text-lg shrink-0">⭐</span>
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] font-bold text-grady-green uppercase tracking-wide">Punto di forza</p>
+              <p className="text-sm font-semibold text-grady-night truncate">
+                {bestSubject.emoji} {bestSubject.name} — media <span className="text-grady-green">{bestSubject.avg}</span>
+              </p>
+            </div>
           </div>
         )}
 
@@ -275,7 +271,44 @@ export default async function DashboardPage() {
           </Link>
         )}
 
-        {/* CTA calendario vuoto */}
+        {/* ── Sezione "Inizia" per utenti senza voti ───────── */}
+        {!hasGrades && (
+          <div className="flex flex-col gap-3">
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wide px-1">Come usare Grady</p>
+
+            <Link href="/dashboard/voti"
+              className="bg-white border border-gray-100 rounded-2xl px-4 py-3.5 flex items-center gap-4 shadow-sm hover:border-grady-blue/30 hover:shadow-md transition-all active:scale-[0.98]">
+              <div className="w-10 h-10 bg-grady-blue/10 rounded-2xl flex items-center justify-center text-xl shrink-0">📝</div>
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-sm text-grady-night">1. Aggiungi i tuoi voti</p>
+                <p className="text-xs text-gray-400 mt-0.5">Seleziona una materia e inserisci il voto — Grady calcola la media automaticamente.</p>
+              </div>
+              <span className="text-gray-300 shrink-0 text-lg">→</span>
+            </Link>
+
+            <Link href="/dashboard/calendario"
+              className="bg-white border border-gray-100 rounded-2xl px-4 py-3.5 flex items-center gap-4 shadow-sm hover:border-grady-violet/30 hover:shadow-md transition-all active:scale-[0.98]">
+              <div className="w-10 h-10 bg-grady-violet/10 rounded-2xl flex items-center justify-center text-xl shrink-0">📅</div>
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-sm text-grady-night">2. Pianifica le verifiche</p>
+                <p className="text-xs text-gray-400 mt-0.5">Aggiungi verifiche, interrogazioni e compiti al calendario per non dimenticare nulla.</p>
+              </div>
+              <span className="text-gray-300 shrink-0 text-lg">→</span>
+            </Link>
+
+            <Link href="/dashboard/simulatore"
+              className="bg-white border border-gray-100 rounded-2xl px-4 py-3.5 flex items-center gap-4 shadow-sm hover:border-grady-green/30 hover:shadow-md transition-all active:scale-[0.98]">
+              <div className="w-10 h-10 bg-grady-green/10 rounded-2xl flex items-center justify-center text-xl shrink-0">🎯</div>
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-sm text-grady-night">3. Usa il Simulatore</p>
+                <p className="text-xs text-gray-400 mt-0.5">Inserisci la media che vuoi raggiungere e Grady ti dice esattamente che voto devi prendere.</p>
+              </div>
+              <span className="text-gray-300 shrink-0 text-lg">→</span>
+            </Link>
+          </div>
+        )}
+
+        {/* CTA calendario vuoto (solo con voti) */}
         {eventList.length === 0 && hasGrades && (
           <Link href="/dashboard/calendario"
             className="bg-white border border-dashed border-gray-200 rounded-2xl px-4 py-3 flex items-center gap-3 hover:border-grady-blue/30 transition">
